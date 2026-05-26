@@ -1,7 +1,7 @@
 package com.example.core.network.interceptor
 
 
-import com.example.core.network.utils.NetworkConstants
+import com.example.newsflow.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 

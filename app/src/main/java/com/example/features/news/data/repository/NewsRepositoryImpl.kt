@@ -1,5 +1,9 @@
 package com.example.features.news.data.repository
 
+import com.example.core.network.api.NewsApiService
+import com.example.core.network.api.safeApiCall
+import com.example.core.network.utils.NetworkResult
+import com.example.features.news.data.mapper.toDomain
 import com.example.features.news.domain.model.Article
 import com.example.features.news.domain.repository.NewsRepository
 import javax.inject.Inject

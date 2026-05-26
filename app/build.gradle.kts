@@ -80,4 +80,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
+
+    // Lifecycle utilities for Jetpack Compose
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
+
+    // Hilt integration with Navigation Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+
+    // Coil library for image loading in Compose
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }
