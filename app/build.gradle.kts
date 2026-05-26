@@ -19,6 +19,17 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        val newsApiKey =
+
+            project.findProperty(
+                "NEWS_API_KEY"
+            )?.toString() ?: ""
+
+        buildConfigField(
+            "String",
+            "NEWS_API_KEY",
+            "\"$newsApiKey\""
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

@@ -2,6 +2,7 @@ package com.example.features.news.data.repository
 
 import com.example.features.news.domain.model.Article
 import com.example.features.news.domain.repository.NewsRepository
+import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
 
