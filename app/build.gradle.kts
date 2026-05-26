@@ -25,6 +25,10 @@ android {
                 "NEWS_API_KEY"
             )?.toString() ?: ""
 
+        println(
+            "NEWS API KEY = $newsApiKey"
+        )
+
         buildConfigField(
             "String",
             "NEWS_API_KEY",
