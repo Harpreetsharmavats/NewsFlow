@@ -31,10 +31,10 @@ android {
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"
 
-        val apiKey = localProperties.getProperty("NEWS_API_KEY") ?: "\"\""
+        val apiKey = localProperties.getProperty("NEWS_API_KEY") ?: ""
 
-        // 3. Inject it into BuildConfig
-        buildConfigField("String", "NEWS_API_KEY", apiKey)
+// Wrap the apiKey variable in escaped double quotes
+        buildConfigField("String", "NEWS_API_KEY", "\"$apiKey\"")
 
     }
 
