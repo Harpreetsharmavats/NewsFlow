@@ -1,12 +1,18 @@
 package com.example.features.news.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.core.network.api.NewsApiService
 import com.example.core.network.api.safeApiCall
 import com.example.core.network.utils.NetworkResult
 import com.example.features.news.data.mapper.toDomain
+import com.example.features.news.data.paging.NewsPagingSource
 import com.example.features.news.domain.model.Article
 import com.example.features.news.domain.repository.NewsRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+
 
 class NewsRepositoryImpl @Inject constructor(
 
@@ -14,45 +20,26 @@ class NewsRepositoryImpl @Inject constructor(
 
 ) : NewsRepository {
 
-    override suspend fun getTopHeadlines():
+    override fun getTopHeadlines():
 
-            NetworkResult<List<Article>> {
+            Flow<PagingData<Article>> {
 
-        val result = safeApiCall {
+        return Pager(
 
-            api.getTopHeadlines(
-                page = 1,
-                pageSize = 20
-            )
-        }
+            config = PagingConfig(
 
-        return when (result) {
+                pageSize = 20,
 
-            is NetworkResult.Success -> {
+                prefetchDistance = 5,
 
-                val articles =
-                    result.data.articles
-                        ?.map { it.toDomain() }
-                        ?: emptyList()
+                enablePlaceholders = false
+            ),
 
-                NetworkResult.Success(
-                    articles
-                )
+            pagingSourceFactory = {
+
+                NewsPagingSource(api)
             }
 
-            is NetworkResult.Error -> {
-
-                NetworkResult.Error(
-                    result.message
-                )
-            }
-
-            else -> {
-
-                NetworkResult.Error(
-                    "Unknown Error"
-                )
-            }
-        }
+        ).flow
     }
 }

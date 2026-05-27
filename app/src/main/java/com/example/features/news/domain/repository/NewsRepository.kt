@@ -1,11 +1,12 @@
 package com.example.features.news.domain.repository
 
-import com.example.core.network.utils.NetworkResult
+import androidx.paging.PagingData
 import com.example.features.news.domain.model.Article
+import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
 
-    suspend fun getTopHeadlines():
+    fun getTopHeadlines():
 
-            NetworkResult<List<Article>>
+            Flow<PagingData<Article>>
 }
