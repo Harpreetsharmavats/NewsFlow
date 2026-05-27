@@ -18,6 +18,7 @@ interface NewsApiService {
         @Query("page")
         page: Int,
 
+
         @Query("pageSize")
         pageSize: Int
 
