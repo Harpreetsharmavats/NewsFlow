@@ -1,8 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+}
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        load(FileInputStream(localPropertiesFile))
+    }
 }
 
 android {
@@ -19,23 +28,14 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        val newsApiKey =
+        testInstrumentationRunner =
+            "androidx.test.runner.AndroidJUnitRunner"
 
-            project.findProperty(
-                "NEWS_API_KEY"
-            )?.toString() ?: ""
+        val apiKey = localProperties.getProperty("NEWS_API_KEY") ?: "\"\""
 
-        println(
-            "NEWS API KEY = $newsApiKey"
-        )
+        // 3. Inject it into BuildConfig
+        buildConfigField("String", "NEWS_API_KEY", apiKey)
 
-        buildConfigField(
-            "String",
-            "NEWS_API_KEY",
-            "\"$newsApiKey\""
-        )
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -94,4 +94,7 @@ dependencies {
 
     // Coil library for image loading in Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("androidx.paging:paging-runtime-ktx:3.5.0")
+
+    implementation("androidx.paging:paging-compose:3.5.0")
 }

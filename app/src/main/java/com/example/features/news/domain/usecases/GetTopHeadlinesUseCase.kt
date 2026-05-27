@@ -9,7 +9,7 @@ class GetTopHeadlinesUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke() =
+    operator fun invoke() =
 
         repository.getTopHeadlines()
 }
