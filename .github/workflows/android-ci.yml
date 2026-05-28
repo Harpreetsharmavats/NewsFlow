@@ -31,6 +31,12 @@ jobs:
       - name: Grant Execute Permission
         run: chmod +x gradlew
 
+      - name: Create local.properties
+
+        run: |
+
+          echo "NEWS_API_KEY=${{ secrets.NEWS_API_KEY }}" >> local.properties
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug
               
