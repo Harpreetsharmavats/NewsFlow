@@ -84,6 +84,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    testImplementation("junit:junit:4.13.2")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
+
+    testImplementation("app.cash.turbine:turbine:1.2.1")
+
+    testImplementation("io.mockk:mockk:1.14.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
 
     // Lifecycle utilities for Jetpack Compose
