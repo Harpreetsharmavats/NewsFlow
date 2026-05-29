@@ -1,16 +1,16 @@
 package com.example.features.news.presentation.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -20,107 +20,69 @@ import com.example.features.news.presentation.component.ShimmerNewsCard
 import com.example.features.news.presentation.viewmodel.NewsViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(
-
-    viewModel: NewsViewModel =
-        hiltViewModel()
-
+    viewModel: NewsViewModel = hiltViewModel()
 ) {
+
     val articles =
+        viewModel.articles.collectAsLazyPagingItems()
 
-        viewModel.articles
-            .collectAsLazyPagingItems()
-    val refreshState =
-        rememberPullToRefreshState()
+    Scaffold(
 
-    PullToRefreshBox(
+        topBar = {
 
-        isRefreshing =
+            TopAppBar(
 
-            articles.loadState.refresh
-                    is LoadState.Loading,
+                title = {
 
-        onRefresh = {
-
-            articles.refresh()
-        },
-
-        state = refreshState
-
-    ) {
-
-
-        LazyColumn(
-
-            modifier = Modifier.fillMaxSize(),
-
-            verticalArrangement =
-                Arrangement.spacedBy(12.dp),
-
-            contentPadding =
-                PaddingValues(16.dp)
-
-        ) {
-
-            when (
-
-                articles.loadState.refresh
-
-            ) {
-
-                is LoadState.Loading -> {
-
-                    items(6) {
-
-                        ShimmerNewsCard()
-                    }
+                    Text(
+                        text = "NewsFlow",
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 }
+            )
+        }
 
-                is LoadState.Error -> {
+    ) { paddingValues ->
 
-                    item {
+        when (articles.loadState.refresh) {
 
-                        ErrorItem(
+            is LoadState.Loading -> {
 
-                            message = "Failed to load news",
-
-                            onRetry = {
-
-                                articles.retry()
-                            }
-                        )
-                    }
-                }
-
-                else -> {
-
-                    items(
-
-                        count =
-                            articles.itemCount
-
-                    ) { index ->
-
-                        articles[index]
-                            ?.let { article ->
-
-                                NewsCard(article)
-                            }
-                    }
-                }
+                ShimmerNewsCard()
             }
 
-            if (
+            is LoadState.Error -> {
 
-                articles.loadState.append
-                        is LoadState.Loading
+                ErrorItem(
+                    message = "Failed to load news",
+                    onRetry = {
+                        articles.retry()
+                    }
+                )
+            }
 
-            ) {
+            else -> {
 
-                item {
+                val pagerState = rememberPagerState(
+                    pageCount = {
+                        articles.itemCount
+                    }
+                )
 
-                    CircularProgressIndicator()
+                VerticalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) { page ->
+
+                    articles[page]?.let { article ->
+
+                        NewsCard(article)
+                    }
                 }
             }
         }

@@ -105,4 +105,5 @@ dependencies {
 
     implementation("androidx.paging:paging-compose:3.5.0")
     implementation("com.valentinilk.shimmer:compose-shimmer:1.4.0")
+    implementation("androidx.compose.foundation:foundation")
 }
