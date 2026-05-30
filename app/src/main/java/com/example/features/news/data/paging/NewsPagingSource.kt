@@ -31,7 +31,7 @@ class NewsPagingSource(
 
                     page = currentPage,
 
-                    pageSize = 10
+                    pageSize = 20
                 )
 
             val articles =

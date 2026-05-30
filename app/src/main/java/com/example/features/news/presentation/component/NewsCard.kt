@@ -2,12 +2,11 @@ package com.example.features.news.presentation.component
 
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,60 +18,49 @@ import com.example.features.news.domain.model.Article
 
 @Composable
 fun NewsCard(
-
     article: Article
-
 ) {
 
-    Card(
-
-        modifier = Modifier.fillMaxWidth(),
-
-        shape = RoundedCornerShape(20.dp),
-
-        elevation =
-            CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            )
-
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
 
-        Column {
+        AsyncImage(
+            model = article.imageUrl,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.55f),
+            contentScale = ContentScale.Crop
+        )
 
-            AsyncImage(
+        Column(
+            modifier = Modifier
+                .weight(0.45f)
+                .padding(20.dp)
+        ) {
 
-                model = article.imageUrl,
+            Text(
+                text = article.source,
+                style = MaterialTheme.typography.labelMedium
+            )
 
-                contentDescription = null,
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp),
-
-                contentScale =
-                    ContentScale.Crop
+            Spacer(
+                modifier = Modifier.height(12.dp)
             )
 
             Text(
-
                 text = article.title,
+                style = MaterialTheme.typography.headlineSmall
+            )
 
-                style =
-                    MaterialTheme.typography.titleMedium,
-
-                modifier = Modifier.padding(12.dp)
+            Spacer(
+                modifier = Modifier.height(12.dp)
             )
 
             Text(
-
                 text = article.description,
-
-                style =
-                    MaterialTheme.typography.bodyMedium,
-
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                )
+                style = MaterialTheme.typography.bodyLarge
             )
         }
     }
